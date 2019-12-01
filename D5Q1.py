@@ -17,21 +17,32 @@ class Personne:
         (str,str, int)->None
         initialise les attributs de la classe Personne
         '''
-        # A completer
+        self.nom = nom
+        self.prenom = prenom
+        self.identifiant = identifiant
 
     def __repr__(self):
         '''
         (Personne)->str
         retourne une representation de l'objet
         '''
-        # A completer
+        strInfo = self.nom + self.prenom + str(self.identifiant)
+        return strInfo
 
     def __eq__(self, autre):
         '''
         (Personne, Personne)->bool
         self == autre si le nom et le prenom sont les memes
         '''
-        # A completer
+        if self.nom != autre.nom :
+            return False
+        if self.prenom != autre.prenom :
+            return False
+        if self.identifiant != autre.identifiant :
+            return False
+        return True
+
+
 
 class Etudiant(Personne):
     '''
@@ -39,11 +50,27 @@ class Etudiant(Personne):
     '''
      # solde est un attribut de la classe Etudiant
      # cours est une liste de cours (une liste de chaine de caracteres)
+
+    def __init__(self, nom, prenom, identifiant, solde, cours):
+        Personne.__init__(self, nom, prenom, identifiant)
+        self.solde = solde
+        self.cours = cours
      
-     # methodes
+    def __repr__(self):
+        '''
+        (Personne)->str
+        retourne une representation de l'objet
+        '''
+        strInfo = self.nom+self.prenom+str(self.identifiant)+'_'+str(self.solde)+'_'+str(len(self.cours))
+        return strInfo
+
+    def ajouterCours(self, nomCours):
+        if self.solde==0:
+            (self.cours).append(nomCours)
+            return True
+        return False
      
-     # A completer
-    
+     
 
 class Employe(Personne):
     '''
@@ -51,9 +78,22 @@ class Employe(Personne):
     '''
     # tauxHoraire est un attribut de la classe Employe
     
-    # methodes
+    def __init__(self, nom, prenom, identifiant, tauxHoraire):
+        Personne.__init__(self, nom, prenom, identifiant)
+        self.tauxHoraire = tauxHoraire
 
-    # A completer
+    def __repr__(self):
+        '''
+        (Personne)->str
+        retourne une representation de l'objet
+        '''
+        strInfo = self.nom+self.prenom+str(self.identifiant)+'_'+str(self.tauxHoraire)
+        return strInfo
+
+    def calculerSalaire(self, numHeures, tauxHoraire) :
+        return self.numHeures * self.tauxHoraire
+
+
 
 
 class Gestion:
@@ -65,7 +105,19 @@ class Gestion:
         none -> bool
         ajouter des etudiants dans une liste d'etudiant
         '''
-        # Completer
+        name = str(input("Entrez le nom: "))
+        Fname = str(input("Entrez le prenom: "))
+        ID = int(input("Entrez l'identifiant: "))
+        sold = float(input("Entrez le solde: "))
+        courses=[]
+        courses = eval(input("Entrez une liste de cours separe par des virgules: "))
+        add = str(input("Veux-tu ajouter un autre cours? entrez 'oui' ou 'non': "))
+        nouveau = Etudiant(name, Fname, ID, sold, courses)
+        if add == 'oui' and :
+            listEtudiant.append(Etudiant(name, Fname, ID, sold, courses))
+        
+            
+        
 
     def ajouterEmploye(self):
         '''
