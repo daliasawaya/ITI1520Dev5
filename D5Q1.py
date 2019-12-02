@@ -91,7 +91,7 @@ class Employe(Personne):
         return strInfo
 
     def calculerSalaire(self, numHeures, tauxHoraire) :
-        return self.numHeures * self.tauxHoraire
+        return numHeures * tauxHoraire
 
 
 
@@ -109,13 +109,32 @@ class Gestion:
         Fname = str(input("Entrez le prenom: "))
         ID = int(input("Entrez l'identifiant: "))
         sold = float(input("Entrez le solde: "))
-        courses=[]
-        courses = eval(input("Entrez une liste de cours separe par des virgules: "))
-        add = str(input("Veux-tu ajouter un autre cours? entrez 'oui' ou 'non': "))
-        nouveau = Etudiant(name, Fname, ID, sold, courses)
-        if add == 'oui' and :
-            listEtudiant.append(Etudiant(name, Fname, ID, sold, courses))
+
+        cours = []
+        cours_str = input("Entrez cours separes par virgules: ")
+        cours_list  = cours_str.split(",")
         
+        for c in cours_list:
+            cours.append(c)
+
+        add = str(input("Veux-tu ajouter un autre cours? entrez 'oui' ou 'non': "))
+        if add == 'oui':
+            nouvCours = str(input("Entrez le cours a ajouter: "))
+            etudiant = Etudiant(name, Fname, ID, sold, cours)
+            if Etudiant.ajouterCours(etudiant, nouvCours):
+                print("Le cours a ete ajoute.")
+            else:
+                print("Vous devez payer votre solde avant d'ajouter un cours.")
+        else :
+            print("D'accord, on n'ajoute rien, maintenant pour la prochaine etape.")
+
+        etudiant = Etudiant(name, Fname, ID, sold, cours)
+
+        for i in Gestion.listEtudiant :
+            if i == etudiant :
+                return False
+        Gestion.listEtudiant.append(etudiant)
+        return True
             
         
 
@@ -124,41 +143,83 @@ class Gestion:
         none -> bool
         ajouter des etudiants dans une liste d'etudiant
         '''
-        # Completer
+        name = str(input("Entrez le nom: "))
+        Fname = str(input("Entrez le prenom: "))
+        ID = int(input("Entrez l'identifiant: "))
+        taux = float(input("Entrez le taux horaire: "))
+
+        employe = Employe(name, Fname, ID, taux)
+
+        for j in Gestion.listEmploye :
+            if j == employe :
+                return False
+        Gestion.listEmploye.append(employe)
+        return True
+        
     
     def SoldeNonPaye(self):
         '''
         none -> int
         retourner le nombre des etudiants qui ont un solde non paye
         '''
-        # Completer
+        compteur = 0
+        for m in Gestion.listEtudiant :
+            if m.solde!=0:
+                compteur+=1
+        return compteur
+                
 
     def salaireInd(self, employe, heures):
         '''
         (str) -> float
         retourne le salaire d'un employe
         '''
-        # Completer
+        if employe in Gestion.listEmploye:
+            salaire = Employe.calculerSalaire(employe, heures, employe.tauxHoraire )
+            return salaire
+        else:
+            return 0
 
 
 #program principal
 g = Gestion()
+
+
 print("Ajoutez des etudiants.")
+
 # Ajouter des etudiants
-g.ajouterEtudiant()
-g.ajouterEtudiant()
+if g.ajouterEtudiant() :
+    print("Etudiant ajoute avec succes.")
+else:
+    print("Etudiant existe deja dans le systeme, on ne la pas ajouter.")
+if g.ajouterEtudiant() :
+    print("Etudiant ajoute avec succes.")
+else:
+    print("Etudiant existe deja dans le systeme, on ne la pas ajouter.") 
+
 
 # Ajouter des employes
 print("Ajouter des employes.")
-g.ajouterEmploye()
-g.ajouterEmploye()
+if g.ajouterEmploye() :
+    print("Employer ajoute avec succes.")
+else:
+    print("Employer existe deja dans le systeme, on ne la pas ajouter.")
+if g.ajouterEmploye() :
+    print("Employer ajoute avec succes.")
+else:
+    print("Employer existe deja dans le systeme, on ne la pas ajouter.")
 #g.ajouterEmployes()
+
 
 # Afficher le nombre des employes et des etudiants
 print("il y a: ", len(Gestion.listEtudiant), " etudiants.")
 print("il y a: ", len(Gestion.listEmploye), " employes.")
+
+
 # Afficher le nombre des etudiants qui ont un solde a payer
 print("il y a ", g.SoldeNonPaye(), "etudiants qui n'ont pas paye leur solde.")
+
+
 # Afficher les salaires de tous les employes
 for e in Gestion.listEmploye:
     heure = int(input("Entrez le nombre des heures pour employe " + e.prenom + " " + e.nom + " "))
